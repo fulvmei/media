@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="fu_controller_container" type="id" />
+    <item name="fu_controller_volume_switch" type="id" />
+    <item name="fu_controller_shuffle_switch" type="id" />
+    <item name="fu_controller_repeat_switch" type="id" />
+    <item name="fu_controller_skip_previous" type="id" />
+    <item name="fu_controller_skip_next" type="id" />
+    <item name="fu_controller_fast_rewind" type="id" />
+    <item name="fu_controller_fast_forward" type="id" />
+    <item name="fu_controller_play_pause_switch" type="id" />
+    <item name="fu_controller_duration" type="id" />
+    <item name="fu_controller_position" type="id" />
+    <item name="fu_controller_seek" type="id" />
+
+    <item name="fu_state_ended_hint" type="id" />
+    <item name="fu_state_ended_replay" type="id" />
+
+    <item name="fu_state_error_hint" type="id" />
+    <item name="fu_state_error_retry" type="id" />
+
+</resources>

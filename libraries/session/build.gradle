@@ -1,0 +1,17 @@
+apply from: "$gradle.ext.projectSettingsDir/common_library_config.gradle"
+
+dependencies {
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    testImplementation 'junit:junit:' + junitVersion
+    androidTestImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
+    androidTestImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
+
+    api 'androidx.media3:media3-session:' + androidxMedia3Version
+}
+
+ext {
+    releaseArtifactId = 'media-session'
+    releaseName = 'Media Session module'
+}
+
+apply from: '../../publish.gradle'

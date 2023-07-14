@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Media"
+include ':demos:main'
+include ':libraries:ui'
+include ':libraries:session'
+
+def rootDir = file(".")
+if (!gradle.ext.has('projectSettingsDir')) {
+    gradle.ext.projectSettingsDir = rootDir.getCanonicalPath()
+}

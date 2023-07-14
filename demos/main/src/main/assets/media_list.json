@@ -1,0 +1,205 @@
+[
+  {
+    "name": "点播视频",
+    "media_list": [
+      {
+        "name": "资源1(MP4,H264,360P)",
+        "path": "https://mov.bn.netease.com/open-movie/nos/mp4/2015/08/27/SB13F5AGJ_sd.mp4",
+        "type": "video",
+        "tag": "mp4"
+      },
+      {
+        "name": "资源2(MP4,H264,360P)",
+        "path": "https://mov.bn.netease.com/open-movie/nos/mp4/2018/01/12/SD70VQJ74_sd.mp4",
+        "type": "video",
+        "tag": "mp4"
+      },
+      {
+        "name": "资源3(M3U8,H264,TS,720*576)",
+        "path": "http://vod.hi.gzstv.com/vod_c4d4547568dd45e4b057217d9579a620.m3u8",
+        "type": "video",
+        "tag": "mp4"
+      },
+      {
+        "name": "资源4(MP4,H264,1080P)",
+        "path": "http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4",
+        "type": "video",
+        "tag": "mp4"
+      },
+      {
+        "name": "资源5(MP4,H264,1080P)",
+        "path": "http://storage.gzstv.net/uploads/media/WZZ/xjm-zhaopian.mp4",
+        "type": "video",
+        "tag": "mp4"
+      }
+    ]
+  },
+  {
+    "name": "RTMP",
+    "media_list": [
+      {
+        "name": "演示流",
+        "path": "rtmp://d.ossrs.net/live/livestream",
+        "type": "video",
+        "tag": "rtmp"
+      },
+      {
+        "name": "香港卫视",
+        "path": "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+        "type": "video",
+        "tag": "rtmp"
+      }
+    ]
+  },
+  {
+    "name": "HLS",
+    "media_list": [
+      {
+        "name": "演示流",
+        "path": "http://d.ossrs.net/live/livestream.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "路况直播",
+        "path": "https://83dalshocjcy.gzstv.com/live/952gzlb.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "贵州卫视",
+        "path": "https://hls-qnhi-live.gzstv.com/livegztv-hi/CH01_hi.m3u8?s=816bb7fe5dfd7fc69f2706c0ba7d7dfa&ts=6139a70a",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple 4x3 basic stream",
+        "path": "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple 16x9 basic stream",
+        "path": "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple master playlist advanced (TS)",
+        "path": "https://tungsten.aaplimg.com/VOD/bipbop_adv_example_v2/master.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple master playlist advanced (fMP4)",
+        "path": "https://tungsten.aaplimg.com/VOD/bipbop_adv_fmp4_example/master.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple TS media playlist",
+        "path": "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear1/prog_index.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple AAC media playlist",
+        "path": "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/gear0/prog_index.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      },
+      {
+        "name": "Apple ID3 metadata",
+        "path": "http://devimages.apple.com/samplecode/adDemo/ad.m3u8",
+        "type": "video",
+        "tag": "m3u8"
+      }
+    ]
+  },
+  {
+    "name": "RTSP",
+    "media_list": [
+      {
+        "name": "资源1",
+        "path": "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov",
+        "type": "video",
+        "tag": "mov"
+      }
+    ]
+  },
+  {
+    "name": "HTTP-FLV",
+    "media_list": [
+      {
+        "name": "演示流",
+        "path": "http://d.ossrs.net/live/livestream.flv",
+        "type": "video",
+        "tag": "flv"
+      },
+      {
+        "name": "资源1",
+        "path": "https://mov.bn.netease.com/open-movie/nos/mp4/2015/08/27/SB13F5AGJ_sd.mp4",
+        "type": "video",
+        "tag": "MP4"
+      }
+    ]
+  },
+  {
+    "name": "全景视频",
+    "media_list": [
+      {
+        "name": "过山车",
+        "path": "https://media.gzstv.com/videos/d70b605ecaa27b43b2eda13883155b2b.mp4",
+        "type": "video",
+        "tag": "vr"
+      },
+      {
+        "name": "测试流",
+        "path": "rtmp://live-rtmp2.utovr.com/utovr2/21754903804",
+        "type": "video",
+        "tag": "vr"
+      }
+    ]
+  },
+  {
+    "name": "Music",
+    "media_list": [
+      {
+        "name": "3D潮音 - 3D环绕嗨曲",
+        "path": "http://mvoice.spriteapp.cn/voice/2016/0517/573b1240d0118.mp3",
+        "type": "audio",
+        "tag": "mp3"
+      },
+      {
+        "name": "电音House 耳机福利",
+        "path": "http://mvoice.spriteapp.cn/voice/2016/1108/5821463c8ea94.mp3",
+        "type": "audio",
+        "tag": "mp3"
+      },
+      {
+        "name": "爱过的人我已不再拥有，错过的人是否可回首 . （治愈女声）",
+        "path": "http://mvoice.spriteapp.cn/voice/2016/1104/581b63392f6cb.mp3",
+        "type": "audio",
+        "tag": "mp3"
+      },
+      {
+        "name": "感觉很放松，我最喜欢在我的兰博基尼上听这首歌，先不说，我换一下电池，还能再听几圈",
+        "path": "http://mvoice.spriteapp.cn/voice/2016/1123/5834c6bc02059.mp3",
+        "type": "audio",
+        "tag": "mp3"
+      },
+      {
+        "name": "广播",
+        "path": "https://qn-live.gzstv.com/icvkuzqj/yinyue.m3u8",
+        "type": "audio",
+        "tag": "m3u8"
+      },
+      {
+        "name": "一辈子有多少的来不及发现已失去最重要的东西 . （精神节奏）",
+        "path": "http://mvoice.spriteapp.cn/voice/2016/0703/5778246106dab.mp3",
+        "type": "audio",
+        "tag": "mp3"
+      }
+    ]
+  }
+]

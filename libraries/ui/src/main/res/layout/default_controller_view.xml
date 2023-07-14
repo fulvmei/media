@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@id/fu_controller_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#CC000000"
+        android:layoutDirection="ltr"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="4dp">
+
+            <ImageButton
+                android:id="@id/fu_controller_skip_previous"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_skip_previous"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_skip_previous" />
+
+            <ImageButton
+                android:id="@id/fu_controller_fast_rewind"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_fast_rewind"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_fast_rewind" />
+
+            <ImageButton
+                android:id="@id/fu_controller_play_pause_switch"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_play_pause_switch"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_play" />
+
+            <ImageButton
+                android:id="@id/fu_controller_fast_forward"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_fast_forward"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_fast_forward" />
+
+            <ImageButton
+                android:id="@id/fu_controller_skip_next"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_skip_next"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_skip_next" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@id/fu_controller_repeat_switch"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_repeat_switch"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_repeat_off" />
+
+            <ImageButton
+                android:id="@id/fu_controller_shuffle_switch"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_shuffle_switch"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_shuffle_up" />
+
+            <ImageButton
+                android:id="@id/fu_controller_volume_switch"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:contentDescription="@string/fu_volume_switch"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:src="@drawable/fu_ic_volume_up" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/fu_controller_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="#FFBEBEBE"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@id/fu_controller_seek"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/fu_controller_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="#FFBEBEBE"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>

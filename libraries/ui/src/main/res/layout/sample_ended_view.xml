@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@id/fu_state_ended_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fu_state_ended_hint"
+        android:textColor="#ffffff" />
+
+    <ImageButton
+        android:id="@id/fu_state_ended_replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:contentDescription="@string/fu_replay"
+        android:padding="8dp"
+        android:src="@drawable/fu_ic_replay" />
+</LinearLayout>
