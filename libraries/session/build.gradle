@@ -6,12 +6,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
     androidTestImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
 
-    api 'androidx.media3:media3-exoplayer:' + androidxMedia3Version
-    api 'androidx.media3:media3-exoplayer-dash:' + androidxMedia3Version
-    api 'androidx.media3:media3-exoplayer-hls:' + androidxMedia3Version
-    api 'androidx.media3:media3-exoplayer-rtsp:' + androidxMedia3Version
-    api 'androidx.media3:media3-exoplayer-smoothstreaming:' + androidxMedia3Version
-    api 'androidx.media3:media3-datasource-rtmp:' + androidxMedia3Version
+    api project(path: ':libraries:common')
 
     api 'androidx.media3:media3-session:' + androidxMedia3Version
 }

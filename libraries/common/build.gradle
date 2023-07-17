@@ -1,0 +1,22 @@
+apply from: "$gradle.ext.projectSettingsDir/common_library_config.gradle"
+
+dependencies {
+    implementation 'androidx.annotation:annotation:' + androidxAnnotationVersion
+    testImplementation 'junit:junit:' + junitVersion
+    androidTestImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
+    androidTestImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
+
+    api 'androidx.media3:media3-exoplayer:' + androidxMedia3Version
+    api 'androidx.media3:media3-exoplayer-dash:' + androidxMedia3Version
+    api 'androidx.media3:media3-exoplayer-hls:' + androidxMedia3Version
+    api 'androidx.media3:media3-exoplayer-rtsp:' + androidxMedia3Version
+    api 'androidx.media3:media3-exoplayer-smoothstreaming:' + androidxMedia3Version
+    api 'androidx.media3:media3-datasource-rtmp:' + androidxMedia3Version
+}
+
+ext {
+    releaseArtifactId = 'media-common'
+    releaseName = 'Media Common module'
+}
+
+apply from: '../../publish.gradle'

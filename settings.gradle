@@ -12,14 +12,19 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Media"
-include ':demos:main'
-include ':demos:session'
-include ':libraries:ui'
-include ':libraries:session'
 
 def rootDir = file(".")
 if (!gradle.ext.has('projectSettingsDir')) {
     gradle.ext.projectSettingsDir = rootDir.getCanonicalPath()
 }
+
+rootProject.name = "Media"
+include ':demos:main'
+include ':demos:session'
+include ':libraries:common'
+include ':libraries:session'
+include ':libraries:ui'
+
+
+
 
