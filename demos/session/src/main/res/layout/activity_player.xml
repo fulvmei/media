@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.fulvmei.android.media.ui.DefaultControlView
+    <com.fulvmei.android.media.ui.ControlView
         android:id="@+id/controlView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

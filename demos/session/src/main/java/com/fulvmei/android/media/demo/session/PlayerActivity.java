@@ -9,6 +9,7 @@ import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
 
 import com.fulvmei.android.media.session.PlaybackService;
+import com.fulvmei.android.media.ui.ControlView;
 import com.fulvmei.android.media.ui.DefaultControlView;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -19,7 +20,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     MediaController mediaController;
 
-    DefaultControlView controlView;
+    ControlView controlView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     public void initPlayer(){
+        controlView.setPlayer(mediaController);
         mediaController.setMediaItem(MediaItem.fromUri("https://storage.googleapis.com/uamp/The_Kyoto_Connection_-_Wake_Up/02_-_Geisha.mp3"));
 //        mediaController.setPlayWhenReady(true);
 //        mediaController.prepare();
