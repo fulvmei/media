@@ -19,6 +19,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 
 import com.bumptech.glide.Glide;
 import com.fulvmei.android.media.ui.BaseControlView;
+import com.fulvmei.android.media.ui.ControlView;
 import com.fulvmei.android.media.ui.DefaultControlView;
 import com.fulvmei.android.media.ui.FuPlayerView;
 import com.fulvmei.android.media.ui.SampleBufferingView;
@@ -48,7 +49,7 @@ public class PlayerActivity extends AppCompatActivity {
     private SampleEndedView endedView;
     //    private PlayerNotificationManager playerNotificationManager;
     private Bitmap bigIcon;
-    DefaultControlView controlView;
+    ControlView controlView;
     //    ConcatenatingMediaSource mediaSource;
     FuPlayerView playerView;
 
@@ -137,14 +138,14 @@ public class PlayerActivity extends AppCompatActivity {
         endedView = findViewById(R.id.endedView);
         controlView = findViewById(R.id.controlView);
 
-        controlView.addProgressUpdateListener(new BaseControlView.ProgressUpdateListener() {
-            @Override
-            public void onProgressUpdate(long position, long bufferedPosition) {
-                Timber.e("onProgressUpdate,position=%d,bufferedPosition=%d", position, bufferedPosition);
-            }
-        });
-
-        controlView.setShowAlwaysInPaused(true);
+//        controlView.addProgressUpdateListener(new BaseControlView.ProgressUpdateListener() {
+//            @Override
+//            public void onProgressUpdate(long position, long bufferedPosition) {
+//                Timber.e("onProgressUpdate,position=%d,bufferedPosition=%d", position, bufferedPosition);
+//            }
+//        });
+//
+//        controlView.setShowAlwaysInPaused(true);
 
 //        controlView.setProgressAdapter(new DynamicProgressAdapter(1000,6000));
 
