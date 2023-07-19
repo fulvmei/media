@@ -90,7 +90,7 @@ public class ControlView extends FrameLayout {
     }
 
     @LayoutRes
-    private int getLayoutResources() {
+    protected int getLayoutResources() {
         return R.layout.fu_controller_view;
     }
 
