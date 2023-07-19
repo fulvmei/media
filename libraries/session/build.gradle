@@ -11,9 +11,9 @@ dependencies {
     api 'androidx.media3:media3-session:' + androidxMedia3Version
 }
 
-ext {
-    releaseArtifactId = 'media-session'
-    releaseName = 'Media Session module'
-}
-
-apply from: '../../publish.gradle'
+//ext {
+//    releaseArtifactId = 'media-session'
+//    releaseName = 'Media Session module'
+//}
+//
+//apply from: '../../publish.gradle'

@@ -14,9 +14,9 @@ dependencies {
     api 'androidx.media3:media3-datasource-rtmp:' + androidxMedia3Version
 }
 
-ext {
-    releaseArtifactId = 'media-common'
-    releaseName = 'Media Common module'
-}
-
-apply from: '../../publish.gradle'
+//ext {
+//    releaseArtifactId = 'media-common'
+//    releaseName = 'Media Common module'
+//}
+//
+//apply from: '../../publish.gradle'
