@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <com.fulvmei.android.media.ui.ControlView
         android:id="@+id/controlView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="200dp" />
+
+    <Button
+        android:id="@+id/btn"
+        android:text="test"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
 
 </LinearLayout>

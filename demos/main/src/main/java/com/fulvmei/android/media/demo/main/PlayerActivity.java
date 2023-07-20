@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,17 +41,14 @@ import com.fulvmei.android.media.demo.main.bean.Media;
 public class PlayerActivity extends AppCompatActivity {
 
     public static final String TAG = "VideoPlayerActivity";
-//    private Media media;
 
     private View playerRoot;
     private Player player;
     private SampleBufferingView loadingView;
     private SampleErrorView errorView;
     private SampleEndedView endedView;
-    //    private PlayerNotificationManager playerNotificationManager;
     private Bitmap bigIcon;
     ControlView controlView;
-    //    ConcatenatingMediaSource mediaSource;
     FuPlayerView playerView;
 
     List<Media> dataList;
@@ -58,10 +56,6 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-//        media = (Media) getIntent().getParcelableExtra("media");
-
         setContentView(R.layout.activity_player);
 
         dataList = getIntent().getParcelableArrayListExtra("list");
@@ -75,30 +69,10 @@ public class PlayerActivity extends AppCompatActivity {
         findViewById(R.id.add1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < player.getAvailableCommands().size(); i++) {
-                    Timber.e("AvailableCommands=" + player.getAvailableCommands().get(i));
-                }
-
-//                MediaMetadata mediaMetadata=new MediaMetadata.Builder()
-//                        .setTitle("HHHHHHHHHHHHHHHHHHHH")
-//                        .build();
-//                MediaItem mediaItem = new MediaItem.Builder()
-//                        .setMediaId("1")
-//                        .setMediaMetadata(mediaMetadata)
-//                        .setUri(media.getPath())
-//                        .build();
-
-//                player.clearMediaItems();
-
-//                Timber.e("hasNextWindow=%s", player.hasNextWindow());
-//                Timber.e("hasPreviousWindow=%s", player.hasPreviousWindow());
-
-//                int contentType = C.TYPE_OTHER;
-//                if (media.getTag().endsWith("m3u8")) {
-//                    contentType = C.TYPE_HLS;
-//                }
-////                mediaSource.addMediaSource(MediaSourceUtil.getMediaSource(PlayerActivity.this, "http://mvoice.spriteapp.cn/voice/2016/1108/5821463c8ea94.mp3", contentType));
-////                player.stop(true);
+                player.setMediaItem(MediaItem.fromUri(dataList.get(0).getPath()).buildUpon().setMediaMetadata(
+                        new MediaMetadata.Builder()
+                                .setArtist("111111111111111111111")
+                        .build()).build());
             }
         });
 
@@ -138,178 +112,46 @@ public class PlayerActivity extends AppCompatActivity {
         endedView = findViewById(R.id.endedView);
         controlView = findViewById(R.id.controlView);
 
-//        controlView.addProgressUpdateListener(new BaseControlView.ProgressUpdateListener() {
-//            @Override
-//            public void onProgressUpdate(long position, long bufferedPosition) {
-//                Timber.e("onProgressUpdate,position=%d,bufferedPosition=%d", position, bufferedPosition);
-//            }
-//        });
-//
-//        controlView.setShowAlwaysInPaused(true);
-
-//        controlView.setProgressAdapter(new DynamicProgressAdapter(1000,6000));
-
-//        mediaSource.addMediaSource(MediaSourceUtil.getMediaSource(this, media.getPath()));
-//        mediaSource.addMediaSource(MediaSourceUtil.getMediaSource(this, media.getPath()));
-
         initPlayer();
-
-
-//        player.retry();
-
-//        playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(this, "com.chengfu.android.media.NOW_PLAYING", R.string.app_name, 2, new PlayerNotificationManager.MediaDescriptionAdapter() {
-//            @Override
-//            public String getCurrentContentTitle(FuPlayer player) {
-//                return media.getName();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public PendingIntent createCurrentContentIntent(FuPlayer player) {
-//                return null;
-//            }
-//
-//            @Nullable
-//            @Override
-//            public String getCurrentContentText(FuPlayer player) {
-//                return media.getTag();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public Bitmap getCurrentLargeIcon(FuPlayer player, PlayerNotificationManager.BitmapCallback callback) {
-//
-//                if (bigIcon != null) {
-//                    return bigIcon;
-//                }
-//                Picasso.get().load("http://pic29.nipic.com/20130517/9252150_140653449378_2.jpg")
-//                        .centerCrop()
-//                        .resize(100, 100)
-//                        .into(new Target() {
-//                            @Override
-//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                bigIcon = bitmap;
-//                                callback.onBitmap(bitmap);
-//                            }
-//
-//                            @Override
-//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                callback.onBitmap(bigIcon);
-//                            }
-//
-//                            @Override
-//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                            }
-//                        });
-//                return null;
-//            }
-//        });
-//
-//        playerNotificationManager.setRewindIncrementMs(0);
-//        playerNotificationManager.setFastForwardIncrementMs(0);
-//        playerNotificationManager.setUseNavigationActions(true);
-//        playerNotificationManager.setPlayer(player);
-//        playerNotificationManager.setUseNavigationActionsInCompactView(true);
-//        playerNotificationManager.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
-//        playerNotificationManager.setUseStopAction(true);
-//        playerNotificationManager.setPriority(NotificationCompat.PRIORITY_MAX);
-
-
         onOrientationChanged(getResources().getConfiguration().orientation);
-
     }
-
-//    private final Runnable runnable = () -> {
-//        handleMessage();
-//    };
-//
-//    private void handleMessage(){
-//        Timber.e("handleMessage bufferedPosition=" + player.getBufferedPosition());
-//        handler.postDelayed(runnable,1000);
-//    }
-//
-//    Handler handler = new Handler();
 
 
     private void initPlayer() {
-//        DefaultHttpDataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
-//        dataSourceFactory.setUserAgent(Util.getUserAgent(this, getPackageName()));
-//        Map<String, String> requestProperties = new HashMap<>();
-//        requestProperties.put("referer", "y1w6kj.gzstv.com");
-//        dataSourceFactory.setDefaultRequestProperties(requestProperties);
-
-//        DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
-
-//        SimpleExoPlayer exoPlayer = new SimpleExoPlayer.Builder(this).setMediaSourceFactory(mediaSourceFactory).build();
 
         player =new ExoPlayer.Builder(this).build();
         player.setRepeatMode(Player.REPEAT_MODE_OFF);
-//        handleMessage();
         player.addListener(new Player.Listener() {
 
             @Override
-            public void onTimelineChanged(Timeline timeline, int reason) {
-                JSONObject ja = new JSONObject();
-                Timeline.Window window = new Timeline.Window();
-                Timeline.Period period = new Timeline.Period();
-                if (timeline.isEmpty()) {
-                    return;
-                }
-                timeline.getWindow(player.getCurrentMediaItemIndex(), window);
-                timeline.getPeriod(player.getCurrentMediaItemIndex(), period);
-                try {
-                    ja.put("getWindowCount", timeline.getWindowCount());
-                    ja.put("getPeriodCount", timeline.getPeriodCount());
-                    ja.put("getCurrentPeriodIndex", player.getCurrentPeriodIndex());
-                    ja.put("getCurrentWindowIndex", player.getCurrentMediaItemIndex());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Timber.e("onTimelineChanged reason=" + reason + ",data" + ja.toString());
-            }
-
-            @Override
-            public void onIsLoadingChanged(boolean isLoading) {
-
-                Timber.e("handleMessage isLoading=" + isLoading);
-            }
-
-            @Override
-            public void onIsPlayingChanged(boolean isPlaying) {
-            }
-
-
-            @Override
             public void onMediaMetadataChanged(MediaMetadata mediaMetadata) {
-                Timber.e("onMediaMetadataChanged mediaMetadata=" + mediaMetadata);
+                Log.e("GGGG","onMediaMetadataChanged mediaMetadata="+mediaMetadata.title);
             }
 
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
-                Timber.e("onMediaItemTransition mediaItem=" + mediaItem);
+                Log.e("GGGG","onMediaItemTransition mediaItem="+mediaItem);
             }
         });
 
-//        mediaSource = new ConcatenatingMediaSource(false,false,new ShuffleOrder.DefaultShuffleOrder(0));
-//        int contentType = C.TYPE_OTHER;
-//        if (media.getTag().endsWith("m3u8")) {
-//            contentType = C.TYPE_HLS;
-//        }
-//        mediaSource.addMediaSource(MediaSourceUtil.getMediaSource(this, media.getPath(), contentType));
-
         List<MediaItem> mediaItemList = new ArrayList<>();
         for (Media media : dataList) {
+
+            MediaMetadata metadata=new MediaMetadata.Builder()
+                    .setTitle(media.getName())
+                    .build();
+
             MediaItem mediaItem = new MediaItem.Builder()
                     .setMediaId(media.getPath())
                     .setUri(media.getPath())
+                    .setMediaMetadata(metadata)
                     .build();
             mediaItemList.add(mediaItem);
         }
 
         player.setMediaItems(mediaItemList);
         player.prepare();
-        player.setPlayWhenReady(true);
+        player.play();
 
         loadingView.setPlayer(player);
         errorView.setPlayer(player);

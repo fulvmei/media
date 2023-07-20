@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
 import androidx.media3.common.Timeline;
 
@@ -39,6 +40,7 @@ public class ControlView extends FrameLayout {
     @NonNull
     protected ProgressAdapter progressAdapter;
 
+    protected TextView titleView;
     protected ImageButton skipPrevious;
     protected ImageButton fastRewindView;
     protected ImageButton playPauseSwitchView;
@@ -78,7 +80,7 @@ public class ControlView extends FrameLayout {
         playerEventsHandler = getPlayerEventsHandler();
         actionHandler = getActionHandler();
         progressAdapter = new DefaultProgressAdapter();
-        progressUpdateListeners=new CopyOnWriteArraySet<>();
+        progressUpdateListeners = new CopyOnWriteArraySet<>();
 
         progressUpdateIntervalMs = DEFAULT_PROGRESS_UPDATE_INTERVAL_MS;
         seekNumber = DEFAULT_SEEK_NUMBER;
@@ -91,11 +93,13 @@ public class ControlView extends FrameLayout {
 
     @LayoutRes
     protected int getLayoutResources() {
-        return R.layout.fu_controller_view;
+        return R.layout.fu_player_control_view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
+        titleView = findViewById(R.id.fu_player_control_title);
+
         skipPrevious = findViewById(R.id.fu_controller_skip_previous);
         if (skipPrevious != null) {
             skipPrevious.setOnClickListener(actionHandler);
@@ -207,11 +211,19 @@ public class ControlView extends FrameLayout {
     }
 
     protected void updateAll() {
+        updateTitleView();
         updatePlayPauseView();
         updateProgress();
         updateNavigation();
         updateRepeatView();
         updateShuffleView();
+    }
+
+    protected void updateTitleView() {
+        if (!attachedToWindow || titleView == null || player == null) {
+            return;
+        }
+        titleView.setText(player.getMediaMetadata().title);
     }
 
     protected void updatePlayPauseView() {
@@ -514,6 +526,12 @@ public class ControlView extends FrameLayout {
         public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
             FuLog.d(TAG, "onPositionDiscontinuity : reason=" + reason);
             updateNavigation();
+        }
+
+        @Override
+        public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
+            FuLog.d(TAG, "onMediaMetadataChanged : mediaMetadata=" + mediaMetadata);
+            updateTitleView();
         }
     }
 
