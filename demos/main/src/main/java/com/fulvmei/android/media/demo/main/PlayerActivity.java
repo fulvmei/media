@@ -13,15 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
-import androidx.media3.common.Timeline;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
 
 
 import com.bumptech.glide.Glide;
-import com.fulvmei.android.media.ui.BaseControlView;
-import com.fulvmei.android.media.ui.ControlView;
-import com.fulvmei.android.media.ui.DefaultControlView;
+import com.fulvmei.android.media.ui.PlayerControlView;
 import com.fulvmei.android.media.ui.FuPlayerView;
 import com.fulvmei.android.media.ui.SampleBufferingView;
 import com.fulvmei.android.media.ui.SampleEndedView;
@@ -29,13 +26,9 @@ import com.fulvmei.android.media.ui.SampleErrorView;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
 import com.fulvmei.android.media.demo.main.bean.Media;
 
 public class PlayerActivity extends AppCompatActivity {
@@ -48,7 +41,7 @@ public class PlayerActivity extends AppCompatActivity {
     private SampleErrorView errorView;
     private SampleEndedView endedView;
     private Bitmap bigIcon;
-    ControlView controlView;
+    PlayerControlView controlView;
     FuPlayerView playerView;
 
     List<Media> dataList;

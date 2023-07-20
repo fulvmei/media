@@ -24,7 +24,7 @@ import androidx.media3.common.Timeline;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ControlView extends FrameLayout {
+public class PlayerControlView extends FrameLayout {
 
     private static final String TAG = "ControlView";
 
@@ -66,15 +66,15 @@ public class ControlView extends FrameLayout {
         void onProgressUpdate(long position, long bufferedPosition);
     }
 
-    public ControlView(@NonNull Context context) {
+    public PlayerControlView(@NonNull Context context) {
         this(context, null);
     }
 
-    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         playerEventsHandler = getPlayerEventsHandler();
