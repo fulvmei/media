@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
+import androidx.media3.common.Timeline;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
 
@@ -117,13 +118,12 @@ public class PlayerActivity extends AppCompatActivity {
         player.addListener(new Player.Listener() {
 
             @Override
-            public void onMediaMetadataChanged(MediaMetadata mediaMetadata) {
-                Log.e("GGGG","onMediaMetadataChanged mediaMetadata="+mediaMetadata.title);
-            }
-
-            @Override
-            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
-                Log.e("GGGG","onMediaItemTransition mediaItem="+mediaItem);
+            public void onTimelineChanged(Timeline timeline, int reason) {
+                Timeline.Window window = new Timeline.Window();
+                timeline.getWindow(0, window);
+                Log.e("GGGG","onTimelineChanged window.isDynamic="+window.isDynamic);
+                Log.e("GGGG","onTimelineChanged window.isSeekable="+window.isSeekable);
+                Log.e("GGGG","onTimelineChanged window.isLive="+window.isLive());
             }
         });
 

@@ -247,7 +247,7 @@ public class PlayerControlView extends FrameLayout {
         }
     }
 
-    private void updateProgress() {
+    protected void updateProgress() {
         if (!attachedToWindow) {
             return;
         }
