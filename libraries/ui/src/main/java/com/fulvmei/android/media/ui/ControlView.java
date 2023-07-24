@@ -24,7 +24,7 @@ import androidx.media3.common.Timeline;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class PlayerControlView extends FrameLayout {
+public class ControlView extends FrameLayout {
 
     private static final String TAG = "ControlView";
 
@@ -34,7 +34,7 @@ public class PlayerControlView extends FrameLayout {
     @Nullable
     private Player player;
     @NonNull
-    protected final PlayerEventsHandler playerEventsHandler;
+    protected final ControlPlayerListener controlPlayerListener;
     @NonNull
     protected final ActionHandler actionHandler;
     @NonNull
@@ -66,18 +66,18 @@ public class PlayerControlView extends FrameLayout {
         void onProgressUpdate(long position, long bufferedPosition);
     }
 
-    public PlayerControlView(@NonNull Context context) {
+    public ControlView(@NonNull Context context) {
         this(context, null);
     }
 
-    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        playerEventsHandler = getPlayerEventsHandler();
+        controlPlayerListener = getControlPlayerListener();
         actionHandler = getActionHandler();
         progressAdapter = new DefaultProgressAdapter();
         progressUpdateListeners = new CopyOnWriteArraySet<>();
@@ -93,12 +93,12 @@ public class PlayerControlView extends FrameLayout {
 
     @LayoutRes
     protected int getLayoutResources() {
-        return R.layout.fu_player_control_view;
+        return R.layout.fu_control_view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
-        titleView = findViewById(R.id.fu_player_control_title);
+        titleView = findViewById(R.id.fu_control_title);
 
         skipPrevious = findViewById(R.id.fu_controller_skip_previous);
         if (skipPrevious != null) {
@@ -172,8 +172,8 @@ public class PlayerControlView extends FrameLayout {
     }
 
     @NonNull
-    protected PlayerEventsHandler getPlayerEventsHandler() {
-        return new PlayerEventsHandler();
+    protected ControlPlayerListener getControlPlayerListener() {
+        return new ControlPlayerListener();
     }
 
     @NonNull
@@ -191,12 +191,12 @@ public class PlayerControlView extends FrameLayout {
             return;
         }
         if (this.player != null) {
-            this.player.removeListener(playerEventsHandler);
+            this.player.removeListener(controlPlayerListener);
         }
 
         this.player = player;
         if (this.player != null) {
-            player.addListener(playerEventsHandler);
+            player.addListener(controlPlayerListener);
         }
         progressAdapter.setPlayer(player);
         updateAll();
@@ -485,7 +485,7 @@ public class PlayerControlView extends FrameLayout {
                 || keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS;
     }
 
-    protected class PlayerEventsHandler implements Player.Listener {
+    protected class ControlPlayerListener implements Player.Listener {
         @Override
         public void onTimelineChanged(@NonNull Timeline timeline, int reason) {
             FuLog.d(TAG, "onTimelineChanged : timeline=" + timeline + ",reason=" + reason);

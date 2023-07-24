@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
@@ -19,7 +18,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 
 
 import com.bumptech.glide.Glide;
-import com.fulvmei.android.media.ui.PlayerControlView;
+import com.fulvmei.android.media.ui.ControlView;
 import com.fulvmei.android.media.ui.FuPlayerView;
 import com.fulvmei.android.media.ui.SampleBufferingView;
 import com.fulvmei.android.media.ui.SampleEndedView;
@@ -42,7 +41,7 @@ public class PlayerActivity extends AppCompatActivity {
     private SampleErrorView errorView;
     private SampleEndedView endedView;
     private Bitmap bigIcon;
-    PlayerControlView controlView;
+    ControlView controlView;
     FuPlayerView playerView;
 
     List<Media> dataList;
@@ -73,7 +72,9 @@ public class PlayerActivity extends AppCompatActivity {
         findViewById(R.id.add2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                player.seekToNext();
+                Timeline.Window window=new Timeline.Window();
+                player.getCurrentTimeline().getWindow(player.getCurrentMediaItemIndex(),window);
+                Log.e("rrrr", window.mediaItem.localConfiguration.tag+"");
             }
         });
 
@@ -138,6 +139,7 @@ public class PlayerActivity extends AppCompatActivity {
                     .setMediaId(media.getPath())
                     .setUri(media.getPath())
                     .setMediaMetadata(metadata)
+                    .setTag("11111111111111")
                     .build();
             mediaItemList.add(mediaItem);
         }

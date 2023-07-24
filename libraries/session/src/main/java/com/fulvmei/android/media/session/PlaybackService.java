@@ -58,26 +58,27 @@ public class PlaybackService extends MediaLibraryService {
 
     private static class CustomMediaLibrarySessionCallback implements MediaLibrarySession.Callback {
 
-//        @Override
-//        public ListenableFuture<List<MediaItem>> onAddMediaItems(MediaSession mediaSession, MediaSession.ControllerInfo controller, List<MediaItem> mediaItems) {
-//            for (MediaItem mediaItem : mediaItems) {
-//                if (mediaItem.localConfiguration == null) {
-//                    return Futures.immediateFailedFuture(new UnsupportedOperationException());
-//                }
-//            }
-//            ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
-//            ListenableFuture<List<MediaItem>> future = executorService.submit(new Callable<List<MediaItem>>() {
-//
-//                @Override
-//                public List<MediaItem> call() throws Exception {
-//                    Thread.sleep(3000);
-//                    return mediaItems;
-//                }
-//            });
-//            return future;
-////            return Futures.immediateFuture(mediaItems);
-//        }
-//
+        @Override
+        public ListenableFuture<List<MediaItem>> onAddMediaItems(MediaSession mediaSession, MediaSession.ControllerInfo controller, List<MediaItem> mediaItems) {
+            for (MediaItem mediaItem : mediaItems) {
+                Log.e("rrrr","onAddMediaItems mediaItem="+mediaItem.localConfiguration.tag);
+                if (mediaItem.localConfiguration == null) {
+                    return Futures.immediateFailedFuture(new UnsupportedOperationException());
+                }
+            }
+            ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
+            ListenableFuture<List<MediaItem>> future = executorService.submit(new Callable<List<MediaItem>>() {
+
+                @Override
+                public List<MediaItem> call() throws Exception {
+                    Thread.sleep(300);
+                    return mediaItems;
+                }
+            });
+            return future;
+//            return Futures.immediateFuture(mediaItems);
+        }
+
 //        @Override
 //        public ListenableFuture<MediaSession.MediaItemsWithStartPosition> onSetMediaItems(MediaSession mediaSession, MediaSession.ControllerInfo controller, List<MediaItem> mediaItems, int startIndex, long startPositionMs) {
 //            return Util.transformFutureAsync(

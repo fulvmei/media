@@ -21,7 +21,7 @@
             app:shutter_background_color="#000000"
             app:surface_type="texture_view" />
 
-        <com.fulvmei.android.media.ui.PlayerControlView
+        <com.fulvmei.android.media.ui.ControlView
             android:id="@+id/controlView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

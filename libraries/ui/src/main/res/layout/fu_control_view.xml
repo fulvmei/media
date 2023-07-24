@@ -12,7 +12,7 @@
             android:background="#CC000000">
 
             <TextView
-                android:id="@id/fu_player_control_title"
+                android:id="@id/fu_control_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

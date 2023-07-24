@@ -7,8 +7,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
 
     api project(path: ':libraries:common')
-
-    api 'androidx.media3:media3-session:' + androidxMedia3Version
 }
 
 //ext {

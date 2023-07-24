@@ -2,7 +2,6 @@
 <resources>
 
     <item name="fu_controller_container" type="id" />
-    <item name="fu_player_control_title" type="id" />
     <item name="fu_controller_volume_switch" type="id" />
     <item name="fu_controller_shuffle_switch" type="id" />
     <item name="fu_controller_repeat_switch" type="id" />
@@ -21,4 +20,6 @@
     <item name="fu_state_error_hint" type="id" />
     <item name="fu_state_error_retry" type="id" />
 
+    <item name="fu_control_title" type="id" />
+    <item name="fu_audio_control_artwork" type="id" />
 </resources>

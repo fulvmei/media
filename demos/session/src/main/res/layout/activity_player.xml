@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.fulvmei.android.media.ui.PlayerControlView
+    <com.fulvmei.android.media.ui.AudioControlView
         android:id="@+id/controlView"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
