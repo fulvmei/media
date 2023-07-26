@@ -21,5 +21,12 @@
     <item name="fu_state_error_retry" type="id" />
 
     <item name="fu_control_title" type="id" />
+    <item name="fu_control_speed" type="id" />
+    <item name="fu_control_speed_item_0p5" type="id" />
+    <item name="fu_control_speed_item_0p75" type="id" />
+    <item name="fu_control_speed_item_1p0" type="id" />
+    <item name="fu_control_speed_item_1p25" type="id" />
+    <item name="fu_control_speed_item_1p5" type="id" />
+    <item name="fu_control_speed_item_2p0" type="id" />
     <item name="fu_audio_control_artwork" type="id" />
 </resources>

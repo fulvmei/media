@@ -2,16 +2,30 @@ package com.fulvmei.android.media.ui;
 
 import static androidx.media3.common.Player.COMMAND_SEEK_BACK;
 import static androidx.media3.common.Player.COMMAND_SEEK_FORWARD;
+import static androidx.media3.common.Player.EVENT_AVAILABLE_COMMANDS_CHANGED;
+import static androidx.media3.common.Player.EVENT_IS_PLAYING_CHANGED;
+import static androidx.media3.common.Player.EVENT_MEDIA_METADATA_CHANGED;
+import static androidx.media3.common.Player.EVENT_PLAYBACK_PARAMETERS_CHANGED;
+import static androidx.media3.common.Player.EVENT_PLAYBACK_STATE_CHANGED;
+import static androidx.media3.common.Player.EVENT_PLAY_WHEN_READY_CHANGED;
+import static androidx.media3.common.Player.EVENT_POSITION_DISCONTINUITY;
+import static androidx.media3.common.Player.EVENT_REPEAT_MODE_CHANGED;
+import static androidx.media3.common.Player.EVENT_SEEK_BACK_INCREMENT_CHANGED;
+import static androidx.media3.common.Player.EVENT_SEEK_FORWARD_INCREMENT_CHANGED;
+import static androidx.media3.common.Player.EVENT_SHUFFLE_MODE_ENABLED_CHANGED;
+import static androidx.media3.common.Player.EVENT_TIMELINE_CHANGED;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -21,7 +35,12 @@ import androidx.annotation.Nullable;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
 import androidx.media3.common.Timeline;
+import androidx.media3.common.util.Util;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ControlView extends FrameLayout {
@@ -29,7 +48,6 @@ public class ControlView extends FrameLayout {
     private static final String TAG = "ControlView";
 
     public static final int DEFAULT_PROGRESS_UPDATE_INTERVAL_MS = 1000;
-    public static final int DEFAULT_SEEK_NUMBER = 1000;
 
     @Nullable
     private Player player;
@@ -39,6 +57,8 @@ public class ControlView extends FrameLayout {
     protected final ActionHandler actionHandler;
     @NonNull
     protected ProgressAdapter progressAdapter;
+    @NonNull
+    protected SpeedAdapter speedAdapter;
 
     protected TextView titleView;
     protected ImageButton skipPrevious;
@@ -48,12 +68,12 @@ public class ControlView extends FrameLayout {
     protected ImageButton skipNext;
     protected ImageButton repeatSwitchView;
     protected ImageButton shuffleSwitchView;
+    protected TextView speedView;
     protected TextView positionView;
     protected SeekBar seekView;
     protected TextView durationView;
 
     protected int progressUpdateIntervalMs;
-    protected int seekNumber;
 
     protected boolean tracking;
     protected boolean attachedToWindow;
@@ -80,10 +100,10 @@ public class ControlView extends FrameLayout {
         controlPlayerListener = getControlPlayerListener();
         actionHandler = getActionHandler();
         progressAdapter = new DefaultProgressAdapter();
+        speedAdapter = new DefaultSpeedAdapter();
         progressUpdateListeners = new CopyOnWriteArraySet<>();
 
         progressUpdateIntervalMs = DEFAULT_PROGRESS_UPDATE_INTERVAL_MS;
-        seekNumber = DEFAULT_SEEK_NUMBER;
 
         LayoutInflater.from(context).inflate(getLayoutResources(), this);
 
@@ -135,11 +155,15 @@ public class ControlView extends FrameLayout {
             shuffleSwitchView.setOnClickListener(actionHandler);
         }
 
+        speedView = findViewById(R.id.fu_control_speed);
+        if (speedView != null) {
+            speedView.setOnClickListener(actionHandler);
+        }
+
         positionView = findViewById(R.id.fu_controller_position);
 
         seekView = findViewById(R.id.fu_controller_seek);
         if (seekView != null) {
-            seekView.setMax(seekNumber);
             seekView.setOnSeekBarChangeListener(actionHandler);
             seekView.setOnTouchListener((View v, MotionEvent event) -> !progressAdapter.isCurrentWindowSeekable());
         }
@@ -169,6 +193,15 @@ public class ControlView extends FrameLayout {
     public void setProgressAdapter(@NonNull ProgressAdapter progressAdapter) {
         this.progressAdapter = progressAdapter;
         this.progressAdapter.setPlayer(getPlayer());
+    }
+
+    @NonNull
+    public SpeedAdapter getSpeedAdapter() {
+        return speedAdapter;
+    }
+
+    public void setSpeedAdapter(@NonNull SpeedAdapter speedAdapter) {
+        this.speedAdapter = speedAdapter;
     }
 
     @NonNull
@@ -211,15 +244,16 @@ public class ControlView extends FrameLayout {
     }
 
     protected void updateAll() {
-        updateTitleView();
         updatePlayPauseView();
-        updateProgress();
         updateNavigation();
         updateRepeatView();
         updateShuffleView();
+        updateSpeedView();
+        updateTimeline();
+        updateMediaMetadata();
     }
 
-    protected void updateTitleView() {
+    protected void updateMediaMetadata() {
         if (!attachedToWindow || titleView == null || player == null) {
             return;
         }
@@ -247,13 +281,32 @@ public class ControlView extends FrameLayout {
         }
     }
 
+    protected void updateTimeline() {
+        if (player == null) {
+            return;
+        }
+        long duration = player.getContentDuration();
+
+        if (positionView != null && !tracking) {
+            positionView.setVisibility(progressAdapter.showPositionViewView() ? VISIBLE : INVISIBLE);
+        }
+        if (seekView != null) {
+            seekView.setMax((int) duration);
+            seekView.setVisibility(progressAdapter.showSeekView() ? VISIBLE : INVISIBLE);
+        }
+        if (durationView != null) {
+            durationView.setText(progressAdapter.getPositionText(duration));
+            durationView.setVisibility(progressAdapter.showDurationView() ? VISIBLE : INVISIBLE);
+        }
+        updateProgress();
+    }
+
     protected void updateProgress() {
         if (!attachedToWindow) {
             return;
         }
         long position = progressAdapter.getCurrentPosition();
         long duration = progressAdapter.getDuration();
-        int bufferedPercent = progressAdapter.getBufferedPercentage();
         long bufferedPosition = progressAdapter.getBufferedPosition();
 
         for (ProgressUpdateListener listener : progressUpdateListeners) {
@@ -261,27 +314,17 @@ public class ControlView extends FrameLayout {
                 listener.onProgressUpdate(position, bufferedPosition);
             }
         }
-
         if (positionView != null && !tracking) {
             positionView.setText(progressAdapter.getPositionText(position));
-            positionView.setVisibility(progressAdapter.showPositionViewView() ? VISIBLE : INVISIBLE);
         }
 
         if (seekView != null) {
             if (duration > 0 && !tracking) {
-                long pos = seekNumber * position / duration;
-                seekView.setProgress((int) pos);
+                seekView.setProgress((int) position);
             }
             if (duration > 0) {
-                long pos = seekNumber * bufferedPosition / duration;
-                seekView.setSecondaryProgress((int) pos);
+                seekView.setSecondaryProgress((int) position);
             }
-            seekView.setVisibility(progressAdapter.showSeekView() ? VISIBLE : INVISIBLE);
-        }
-
-        if (durationView != null) {
-            durationView.setText(progressAdapter.getPositionText(duration));
-            durationView.setVisibility(progressAdapter.showDurationView() ? VISIBLE : INVISIBLE);
         }
 
         removeCallbacks(updateProgressTask);
@@ -362,6 +405,18 @@ public class ControlView extends FrameLayout {
         imageButton.setAlpha(ended ? 1f : 0.3f);
         imageButton.setEnabled(true);
         imageButton.setVisibility(View.VISIBLE);
+    }
+
+    protected void updateSpeedView() {
+        if (!attachedToWindow || speedView == null || player == null) {
+            return;
+        }
+
+        float speed = player.getPlaybackParameters().speed;
+        speedView.setText(MessageFormat.format("{0}X", speed));
+
+        boolean speedHide = player != null && player.isCurrentMediaItemDynamic();
+        speedView.setVisibility(speedHide ? GONE : VISIBLE);
     }
 
     protected void setViewEnabled(boolean enabled, View view) {
@@ -486,57 +541,61 @@ public class ControlView extends FrameLayout {
     }
 
     protected class ControlPlayerListener implements Player.Listener {
-        @Override
-        public void onTimelineChanged(@NonNull Timeline timeline, int reason) {
-            FuLog.d(TAG, "onTimelineChanged : timeline=" + timeline + ",reason=" + reason);
-            updateNavigation();
-            updateProgress();
-        }
 
         @Override
-        public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
-            FuLog.d(TAG, "onPlayWhenReadyChanged : playWhenReady=" + playWhenReady + ",reason=" + reason);
-            updatePlayPauseView();
-            updateProgress();
-        }
-
-        @Override
-        public void onPlaybackStateChanged(int state) {
-            FuLog.d(TAG, "onPlayerStateChanged : state=" + state);
-            updatePlayPauseView();
-            updateProgress();
-        }
-
-        @Override
-        public void onRepeatModeChanged(int repeatMode) {
-            FuLog.d(TAG, "onRepeatModeChanged : repeatMode=" + repeatMode);
-            updateNavigation();
-            updateRepeatView();
-        }
-
-        @Override
-        public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-            FuLog.d(TAG, "onShuffleModeEnabledChanged : shuffleModeEnabled=" + shuffleModeEnabled);
-            updateNavigation();
-            updateRepeatView();
-            updateShuffleView();
-        }
-
-        @Override
-        public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
-            FuLog.d(TAG, "onPositionDiscontinuity : reason=" + reason);
-            updateNavigation();
-        }
-
-        @Override
-        public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
-            FuLog.d(TAG, "onMediaMetadataChanged : mediaMetadata=" + mediaMetadata);
-            updateTitleView();
+        public void onEvents(@NonNull Player player, Player.Events events) {
+            if (events.containsAny(
+                    EVENT_PLAYBACK_STATE_CHANGED,
+                    EVENT_PLAY_WHEN_READY_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updatePlayPauseView();
+            }
+            if (events.containsAny(
+                    EVENT_PLAYBACK_STATE_CHANGED,
+                    EVENT_PLAY_WHEN_READY_CHANGED,
+                    EVENT_IS_PLAYING_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateProgress();
+            }
+            if (events.containsAny(
+                    EVENT_REPEAT_MODE_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateRepeatView();
+            }
+            if (events.containsAny(
+                    EVENT_SHUFFLE_MODE_ENABLED_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateShuffleView();
+            }
+            if (events.containsAny(
+                    EVENT_REPEAT_MODE_CHANGED,
+                    EVENT_SHUFFLE_MODE_ENABLED_CHANGED,
+                    EVENT_POSITION_DISCONTINUITY,
+                    EVENT_TIMELINE_CHANGED,
+                    EVENT_SEEK_BACK_INCREMENT_CHANGED,
+                    EVENT_SEEK_FORWARD_INCREMENT_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateNavigation();
+            }
+            if (events.containsAny(
+                    EVENT_POSITION_DISCONTINUITY,
+                    EVENT_TIMELINE_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateTimeline();
+            }
+            if (events.containsAny(
+                    EVENT_PLAYBACK_PARAMETERS_CHANGED,
+                    EVENT_AVAILABLE_COMMANDS_CHANGED)) {
+                updateSpeedView();
+            }
+            if (events.containsAny(
+                    EVENT_MEDIA_METADATA_CHANGED)) {
+                updateMediaMetadata();
+            }
         }
     }
 
     protected class ActionHandler implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
-        private int progress;
 
         @Override
         public void onClick(View v) {
@@ -561,7 +620,38 @@ public class ControlView extends FrameLayout {
                 seekToPreviousWindow();
             } else if (skipNext == v) {
                 seekToNextWindow();
+            } else if (speedView == v) {
+                onSpeedViewClick(v);
             }
+        }
+
+        public void onSpeedViewClick(View v) {
+            if (player == null) {
+                return;
+            }
+            PopupMenu popupMenu = new PopupMenu(getContext(), v);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                List<SpeedAdapter.Speed> speedList = speedAdapter.getSpeedList();
+                for (int i = 0; i < speedList.size(); i++) {
+                    SpeedAdapter.Speed speed = speedList.get(i);
+                    if (Objects.equals(speed.name, item.getTitle())) {
+                        onSpeedItemClick(speed);
+                        break;
+                    }
+                }
+                return true;
+            });
+            speedAdapter.getSpeedList();
+            List<SpeedAdapter.Speed> speedList = speedAdapter.getSpeedList();
+            for (int i = 0; i < speedList.size(); i++) {
+                SpeedAdapter.Speed speed = speedList.get(i);
+                MenuItem menuItem = popupMenu.getMenu().add(speed.name);
+                menuItem.setCheckable(true);
+                if (Objects.equals(speedAdapter.getSpeed(player.getPlaybackParameters().speed).name, speed.name)){
+                    menuItem.setChecked(true);
+                }
+            }
+            popupMenu.show();
         }
 
         @Override
@@ -569,11 +659,8 @@ public class ControlView extends FrameLayout {
             if (!fromUser || player == null) {
                 return;
             }
-            this.progress = progress;
-            long duration = player.getDuration();
-            long newPosition = (duration * progress) / seekNumber;
             if (positionView != null) {
-                positionView.setText(progressAdapter.getPositionText(newPosition));
+                positionView.setText(progressAdapter.getPositionText(progress));
             }
         }
 
@@ -588,9 +675,14 @@ public class ControlView extends FrameLayout {
             if (player == null) {
                 return;
             }
-            long duration = player.getDuration();
-            long newPosition = duration * progress / seekNumber;
-            seekTo(newPosition);
+            seekTo(seekView.getProgress());
+        }
+
+        public void onSpeedItemClick(@NonNull SpeedAdapter.Speed speed) {
+            if (player == null) {
+                return;
+            }
+            player.setPlaybackSpeed(speed.value);
         }
     }
 }

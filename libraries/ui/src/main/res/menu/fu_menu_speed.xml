@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@id/fu_control_speed_item_0p5"
+        android:title="0.5X"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/fu_control_speed_item_0p75"
+        android:title="0.75X"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/fu_control_speed_item_1p0"
+        android:title="1.0X"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/fu_control_speed_item_1p25"
+        android:title="1.25X"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/fu_control_speed_item_1p5"
+        android:title="1.5X"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@id/fu_control_speed_item_2p0"
+        android:title="2.0X"
+        tools:ignore="HardcodedText" />
+
+</menu>

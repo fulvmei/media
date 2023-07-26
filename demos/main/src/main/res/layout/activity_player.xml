@@ -9,8 +9,9 @@
 
     <FrameLayout
         android:id="@+id/playerRoot"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="match_parent">
 
         <com.fulvmei.android.media.ui.FuPlayerView
             android:id="@+id/playerView"
@@ -28,8 +29,8 @@
 
         <com.fulvmei.android.media.ui.SampleBufferingView
             android:id="@+id/bufferingView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center" />
 
         <com.fulvmei.android.media.ui.SampleErrorView

@@ -9,9 +9,9 @@ dependencies {
     api project(path: ':libraries:common')
 }
 
-//ext {
-//    releaseArtifactId = 'media-ui'
-//    releaseName = 'Media UI module'
-//}
-//
-//apply from: '../../publish.gradle'
+ext {
+    releaseArtifactId = 'ui'
+    releaseName = 'Media UI module'
+}
+
+apply from: '../../publish.gradle'

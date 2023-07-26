@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 public class AudioControlView extends ControlView {
 
-    ImageView artworkView;
+    protected ImageView artworkView;
 
     public AudioControlView(@NonNull Context context) {
         this(context, null);
@@ -63,15 +63,24 @@ public class AudioControlView extends ControlView {
         if (bitmapLoaderFuture != null) {
             bitmapLoaderFuture.addListener(() -> {
                 try {
-                    artworkView.setImageBitmap(bitmapLoaderFuture.get());
+                    updateArtworkBitmap(bitmapLoaderFuture.get());
                 } catch (ExecutionException | InterruptedException e) {
+                    updateArtworkBitmap(null);
                     throw new RuntimeException(e);
                 }
             }, MoreExecutors.directExecutor());
+        }else {
+            updateArtworkBitmap(null);
         }
     }
 
-    class AudioControlPlayerListener extends ControlPlayerListener {
+    protected void updateArtworkBitmap(Bitmap bitmap) {
+        if (artworkView != null) {
+            artworkView.setImageBitmap(bitmap);
+        }
+    }
+
+    protected class AudioControlPlayerListener extends ControlPlayerListener {
 
         @Override
         public void onTracksChanged(@NonNull Tracks tracks) {

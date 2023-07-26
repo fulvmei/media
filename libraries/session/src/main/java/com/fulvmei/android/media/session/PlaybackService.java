@@ -1,5 +1,6 @@
 package com.fulvmei.android.media.session;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.session.LibraryResult;
 import androidx.media3.session.MediaLibraryService;
 import androidx.media3.session.MediaSession;
+import androidx.media3.session.SessionCommand;
+import androidx.media3.session.SessionResult;
 
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -25,29 +28,41 @@ import java.util.concurrent.Executors;
 
 public class PlaybackService extends MediaLibraryService {
 
-    private final MediaLibrarySession.Callback librarySessionCallback = new CustomMediaLibrarySessionCallback();
-    private MediaLibrarySession mediaLibrarySession;
+    protected MediaLibrarySession mediaLibrarySession;
+    @NonNull
+    protected Player player;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Player player = new ExoPlayer.Builder(this)
-                .setMediaSourceFactory(new DefaultMediaSourceFactory(this))
-                .build();
+        player = onGetPlayer();
 
-        mediaLibrarySession = new MediaLibrarySession.Builder(this, player, librarySessionCallback).build();
+        mediaLibrarySession = new MediaLibrarySession.Builder(this, player, onGetSessionCallback()).build();
 
         player.addListener(new Player.Listener() {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
 //                Log.e("GGGG","onMediaItemTransition mediaItem=" + System.currentTimeMillis()+"  reason="+reason);
             }
+
             @Override
             public void onMediaMetadataChanged(MediaMetadata mediaMetadata) {
-                Log.e("GGGG","onMediaMetadataChanged mediaMetadata="+mediaMetadata.title);
+                Log.e("GGGG", "onMediaMetadataChanged mediaMetadata=" + mediaMetadata.title);
             }
         });
+    }
+
+    @NonNull
+    protected Player onGetPlayer() {
+        return new ExoPlayer.Builder(this)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(this))
+                .build();
+    }
+
+    @NonNull
+    public PlaybackSessionCallback onGetSessionCallback() {
+        return new PlaybackSessionCallback();
     }
 
     @Nullable
@@ -56,12 +71,12 @@ public class PlaybackService extends MediaLibraryService {
         return mediaLibrarySession;
     }
 
-    private static class CustomMediaLibrarySessionCallback implements MediaLibrarySession.Callback {
+    protected static class PlaybackSessionCallback implements MediaLibrarySession.Callback {
 
         @Override
         public ListenableFuture<List<MediaItem>> onAddMediaItems(MediaSession mediaSession, MediaSession.ControllerInfo controller, List<MediaItem> mediaItems) {
             for (MediaItem mediaItem : mediaItems) {
-                Log.e("rrrr","onAddMediaItems mediaItem="+mediaItem.localConfiguration.tag);
+                Log.e("rrrr", "onAddMediaItems mediaItem=" + mediaItem.localConfiguration.tag);
                 if (mediaItem.localConfiguration == null) {
                     return Futures.immediateFailedFuture(new UnsupportedOperationException());
                 }
@@ -79,7 +94,8 @@ public class PlaybackService extends MediaLibraryService {
 //            return Futures.immediateFuture(mediaItems);
         }
 
-//        @Override
+
+        //        @Override
 //        public ListenableFuture<MediaSession.MediaItemsWithStartPosition> onSetMediaItems(MediaSession mediaSession, MediaSession.ControllerInfo controller, List<MediaItem> mediaItems, int startIndex, long startPositionMs) {
 //            return Util.transformFutureAsync(
 //                    onAddMediaItems(mediaSession, controller, mediaItems),

@@ -9,9 +9,9 @@ dependencies {
     api project(path: ':libraries:common')
 }
 
-//ext {
-//    releaseArtifactId = 'media-session'
-//    releaseName = 'Media Session module'
-//}
-//
-//apply from: '../../publish.gradle'
+ext {
+    releaseArtifactId = 'session'
+    releaseName = 'Media Session module'
+}
+
+apply from: '../../publish.gradle'
