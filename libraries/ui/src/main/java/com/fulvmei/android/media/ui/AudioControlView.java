@@ -18,7 +18,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.concurrent.ExecutionException;
 
-public class AudioControlView extends ControlView {
+public class AudioControlView extends PlayerControlView {
 
     protected ImageView artworkView;
 
@@ -33,7 +33,7 @@ public class AudioControlView extends ControlView {
     public AudioControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        artworkView = findViewById(R.id.fu_audio_control_artwork);
+        artworkView = findViewById(R.id.fu_player_control_artwork);
     }
 
     @Override

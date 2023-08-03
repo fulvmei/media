@@ -32,18 +32,14 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
-import androidx.media3.common.Timeline;
-import androidx.media3.common.util.Util;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ControlView extends FrameLayout {
+public class PlayerControlView extends FrameLayout {
 
     private static final String TAG = "ControlView";
 
@@ -86,15 +82,15 @@ public class ControlView extends FrameLayout {
         void onProgressUpdate(long position, long bufferedPosition);
     }
 
-    public ControlView(@NonNull Context context) {
+    public PlayerControlView(@NonNull Context context) {
         this(context, null);
     }
 
-    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         controlPlayerListener = getControlPlayerListener();
@@ -118,57 +114,57 @@ public class ControlView extends FrameLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
-        titleView = findViewById(R.id.fu_control_title);
+        titleView = findViewById(R.id.fu_player_control_title);
 
-        skipPrevious = findViewById(R.id.fu_controller_skip_previous);
+        skipPrevious = findViewById(R.id.fu_player_control_previous);
         if (skipPrevious != null) {
             skipPrevious.setOnClickListener(actionHandler);
         }
 
-        fastRewindView = findViewById(R.id.fu_controller_fast_rewind);
+        fastRewindView = findViewById(R.id.fu_player_control_back);
         if (fastRewindView != null) {
             fastRewindView.setOnClickListener(actionHandler);
         }
 
-        playPauseSwitchView = findViewById(R.id.fu_controller_play_pause_switch);
+        playPauseSwitchView = findViewById(R.id.fu_player_control_play_pause);
         if (playPauseSwitchView != null) {
             playPauseSwitchView.setOnClickListener(actionHandler);
         }
 
-        fastForwardView = findViewById(R.id.fu_controller_fast_forward);
+        fastForwardView = findViewById(R.id.fu_player_control_forward);
         if (fastForwardView != null) {
             fastForwardView.setOnClickListener(actionHandler);
         }
 
-        skipNext = findViewById(R.id.fu_controller_skip_next);
+        skipNext = findViewById(R.id.fu_player_control_next);
         if (skipNext != null) {
             skipNext.setOnClickListener(actionHandler);
         }
 
-        repeatSwitchView = findViewById(R.id.fu_controller_repeat_switch);
+        repeatSwitchView = findViewById(R.id.fu_player_control_repeat);
         if (repeatSwitchView != null) {
             repeatSwitchView.setOnClickListener(actionHandler);
         }
 
-        shuffleSwitchView = findViewById(R.id.fu_controller_shuffle_switch);
+        shuffleSwitchView = findViewById(R.id.fu_player_control_shuffle);
         if (shuffleSwitchView != null) {
             shuffleSwitchView.setOnClickListener(actionHandler);
         }
 
-        speedView = findViewById(R.id.fu_control_speed);
+        speedView = findViewById(R.id.fu_player_control_speed);
         if (speedView != null) {
             speedView.setOnClickListener(actionHandler);
         }
 
-        positionView = findViewById(R.id.fu_controller_position);
+        positionView = findViewById(R.id.fu_player_control_position);
 
-        seekView = findViewById(R.id.fu_controller_seek);
+        seekView = findViewById(R.id.fu_player_control_seek);
         if (seekView != null) {
             seekView.setOnSeekBarChangeListener(actionHandler);
             seekView.setOnTouchListener((View v, MotionEvent event) -> !progressAdapter.isCurrentWindowSeekable());
         }
 
-        durationView = findViewById(R.id.fu_controller_duration);
+        durationView = findViewById(R.id.fu_player_control_duration);
     }
 
     @Override
@@ -285,7 +281,7 @@ public class ControlView extends FrameLayout {
         if (player == null) {
             return;
         }
-        long duration = player.getContentDuration();
+        long duration = player.getDuration();
 
         if (positionView != null && !tracking) {
             positionView.setVisibility(progressAdapter.showPositionViewView() ? VISIBLE : INVISIBLE);
@@ -611,11 +607,7 @@ public class ControlView extends FrameLayout {
             } else if (repeatSwitchView == v) {
                 player.setRepeatMode(getNextRepeatMode(player.getRepeatMode()));
             } else if (shuffleSwitchView == v) {
-                if (player.getShuffleModeEnabled()) {
-                    player.setShuffleModeEnabled(false);
-                } else {
-                    player.setShuffleModeEnabled(true);
-                }
+                player.setShuffleModeEnabled(!player.getShuffleModeEnabled());
             } else if (skipPrevious == v) {
                 seekToPreviousWindow();
             } else if (skipNext == v) {
