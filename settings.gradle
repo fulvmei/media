@@ -25,6 +25,8 @@ include ':libraries:common'
 include ':libraries:session'
 include ':libraries:ui'
 
+if (!System.env.JITPACK) include ':demos'
+
 
 
 
