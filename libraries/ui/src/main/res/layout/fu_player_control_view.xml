@@ -104,6 +104,18 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@id/fu_player_control_volume"
+                    android:layout_width="48dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:contentDescription="@string/fu_repeat_switch"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="4dp"
+                    android:src="@drawable/fu_ic_volume_up" />
+
+                <ImageButton
                     android:id="@id/fu_player_control_repeat"
                     android:layout_width="48dp"
                     android:layout_height="40dp"

@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.Player;
 import androidx.media3.common.VideoSize;
@@ -27,9 +28,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 
-public class FuPlayerView extends FrameLayout implements PlayerHolder {
+public class PlayerView extends FrameLayout implements PlayerHolder {
 
-    public static final String TAG = "FuPlayerView";
+    public static final String TAG = "PlayerView";
 
     public static final int SURFACE_TYPE_NONE = 0;
     public static final int SURFACE_TYPE_SURFACE_VIEW = 1;
@@ -55,15 +56,15 @@ public class FuPlayerView extends FrameLayout implements PlayerHolder {
     private int mSurfaceType = -1;
     private int mResizeMode = -1;
 
-    public FuPlayerView(Context context) {
+    public PlayerView(Context context) {
         this(context, null);
     }
 
-    public FuPlayerView(Context context, AttributeSet attrs) {
+    public PlayerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FuPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         if (isInEditMode()) {
@@ -213,7 +214,7 @@ public class FuPlayerView extends FrameLayout implements PlayerHolder {
      * @param newPlayerView The new view to attach to the player.
      */
     public static void switchTargetView(
-            Player player, @Nullable FuPlayerView oldPlayerView, @Nullable FuPlayerView newPlayerView) {
+            Player player, @Nullable PlayerView oldPlayerView, @Nullable PlayerView newPlayerView) {
         if (oldPlayerView == newPlayerView) {
             return;
         }
@@ -242,7 +243,7 @@ public class FuPlayerView extends FrameLayout implements PlayerHolder {
      * Set the {@link Player} to use.
      *
      * <p>To transition a {@link Player} from targeting one view to another, it's recommended to use
-     * {@link #switchTargetView(Player, FuPlayerView, FuPlayerView)} rather than this method. If you do
+     * {@link #switchTargetView(Player, PlayerView, PlayerView)} rather than this method. If you do
      * wish to use this method directly, be sure to attach the player to the new view <em>before</em>
      * calling {@code setPlayer(null)} to detach it from the old one. This ordering is significantly
      * more efficient and may allow for more seamless transitions.
@@ -414,7 +415,7 @@ public class FuPlayerView extends FrameLayout implements PlayerHolder {
         }
 
         @Override
-        public void onPositionDiscontinuity(Player.PositionInfo oldPosition, Player.PositionInfo newPosition, int reason) {
+        public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
             FuLog.d(TAG, "onPositionDiscontinuity : oldPosition=" + oldPosition + ",newPosition=" + newPosition + ",reason=" + reason);
             if (mSurfaceView instanceof TextureView) {
                 TextureView surfaceView = (TextureView) mSurfaceView;

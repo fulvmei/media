@@ -19,7 +19,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 
 import com.bumptech.glide.Glide;
 import com.fulvmei.android.media.ui.PlayerControlView;
-import com.fulvmei.android.media.ui.FuPlayerView;
+import com.fulvmei.android.media.ui.PlayerView;
 import com.fulvmei.android.media.ui.SampleBufferingView;
 import com.fulvmei.android.media.ui.SampleEndedView;
 import com.fulvmei.android.media.ui.SampleErrorView;
@@ -42,7 +42,7 @@ public class PlayerActivity extends AppCompatActivity {
     private SampleEndedView endedView;
     private Bitmap bigIcon;
     PlayerControlView controlView;
-    FuPlayerView playerView;
+    PlayerView playerView;
 
     List<Media> dataList;
 

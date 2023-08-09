@@ -14,6 +14,7 @@ import static androidx.media3.common.Player.EVENT_SEEK_BACK_INCREMENT_CHANGED;
 import static androidx.media3.common.Player.EVENT_SEEK_FORWARD_INCREMENT_CHANGED;
 import static androidx.media3.common.Player.EVENT_SHUFFLE_MODE_ENABLED_CHANGED;
 import static androidx.media3.common.Player.EVENT_TIMELINE_CHANGED;
+import static androidx.media3.common.Player.EVENT_VOLUME_CHANGED;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -62,12 +63,15 @@ public class PlayerControlView extends FrameLayout {
     protected ImageButton playPauseSwitchView;
     protected ImageButton fastForwardView;
     protected ImageButton skipNext;
+    protected ImageButton volumeSwitchView;
     protected ImageButton repeatSwitchView;
     protected ImageButton shuffleSwitchView;
     protected TextView speedView;
     protected TextView positionView;
     protected SeekBar seekView;
     protected TextView durationView;
+
+    protected boolean volumeSwitchEnabled = true;
 
     protected int progressUpdateIntervalMs;
 
@@ -109,7 +113,7 @@ public class PlayerControlView extends FrameLayout {
 
     @LayoutRes
     protected int getLayoutResources() {
-        return R.layout.fu_control_view;
+        return R.layout.fu_player_control_view;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -139,6 +143,11 @@ public class PlayerControlView extends FrameLayout {
         skipNext = findViewById(R.id.fu_player_control_next);
         if (skipNext != null) {
             skipNext.setOnClickListener(actionHandler);
+        }
+
+        volumeSwitchView = findViewById(R.id.fu_player_control_volume);
+        if (volumeSwitchView != null) {
+            volumeSwitchView.setOnClickListener(actionHandler);
         }
 
         repeatSwitchView = findViewById(R.id.fu_player_control_repeat);
@@ -239,6 +248,18 @@ public class PlayerControlView extends FrameLayout {
         progressUpdateListeners.remove(l);
     }
 
+    public boolean isVolumeSwitchEnabled() {
+        return volumeSwitchEnabled;
+    }
+
+    public void setVolumeSwitchEnabled(boolean volumeSwitchEnabled) {
+        if (this.volumeSwitchEnabled == volumeSwitchEnabled) {
+            return;
+        }
+        this.volumeSwitchEnabled = volumeSwitchEnabled;
+        updateVolumeView();
+    }
+
     protected void updateAll() {
         updatePlayPauseView();
         updateNavigation();
@@ -247,6 +268,7 @@ public class PlayerControlView extends FrameLayout {
         updateSpeedView();
         updateTimeline();
         updateMediaMetadata();
+        updateVolumeView();
     }
 
     protected void updateMediaMetadata() {
@@ -350,6 +372,31 @@ public class PlayerControlView extends FrameLayout {
         setViewEnabled(enableRewind, fastRewindView);
         if (seekView != null) {
             seekView.setEnabled(enableSeeking);
+        }
+    }
+
+    protected void updateVolumeView() {
+        if (!attachedToWindow || volumeSwitchView == null) {
+            return;
+        }
+        if (!volumeSwitchEnabled) {
+            volumeSwitchView.setVisibility(GONE);
+            return;
+        }
+        volumeSwitchView.setVisibility(VISIBLE);
+        if (player == null) {
+            setViewEnabled(false, volumeSwitchView);
+            return;
+        }
+        setViewEnabled(true, volumeSwitchView);
+        updateVolumeViewResource(volumeSwitchView, player.getVolume());
+    }
+
+    protected void updateVolumeViewResource(@NonNull ImageButton imageButton, float volume) {
+        if (volume > 0.0f) {
+            imageButton.setImageResource(R.drawable.fu_ic_volume_up);
+        } else {
+            imageButton.setImageResource(R.drawable.fu_ic_volume_off);
         }
     }
 
@@ -588,6 +635,10 @@ public class PlayerControlView extends FrameLayout {
                     EVENT_MEDIA_METADATA_CHANGED)) {
                 updateMediaMetadata();
             }
+            if (events.containsAny(
+                    EVENT_VOLUME_CHANGED)) {
+                updateVolumeView();
+            }
         }
     }
 
@@ -604,6 +655,12 @@ public class PlayerControlView extends FrameLayout {
                 seekBack();
             } else if (fastForwardView == v) {
                 seekForward();
+            } else if (volumeSwitchView == v) {
+                if (player.getVolume() > 0) {
+                    player.setVolume(0.0f);
+                } else {
+                    player.setVolume(1.0f);
+                }
             } else if (repeatSwitchView == v) {
                 player.setRepeatMode(getNextRepeatMode(player.getRepeatMode()));
             } else if (shuffleSwitchView == v) {
@@ -639,7 +696,7 @@ public class PlayerControlView extends FrameLayout {
                 SpeedAdapter.Speed speed = speedList.get(i);
                 MenuItem menuItem = popupMenu.getMenu().add(speed.name);
                 menuItem.setCheckable(true);
-                if (Objects.equals(speedAdapter.getSpeed(player.getPlaybackParameters().speed).name, speed.name)){
+                if (Objects.equals(speedAdapter.getSpeed(player.getPlaybackParameters().speed).name, speed.name)) {
                     menuItem.setChecked(true);
                 }
             }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.fulvmei.android.media.ui.PlayerView
+        android:id="@id/fu_video_play_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:resize_mode="fit"
+        app:shutter_background_color="#000000"
+        app:surface_type="texture_view" />
+
+    <com.fulvmei.android.media.ui.PlayerControlView
+        android:id="@id/fu_video_play_player_control_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.fulvmei.android.media.ui.SampleBufferingView
+        android:id="@id/fu_video_play_player_buffering_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.fulvmei.android.media.ui.SampleEndedView
+        android:id="@id/fu_video_play_player_end_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.fulvmei.android.media.ui.SampleErrorView
+        android:id="@id/fu_video_play_player_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</merge>

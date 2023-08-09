@@ -42,4 +42,12 @@
     <item name="fu_player_control_speed_item_1p25" type="id" />
     <item name="fu_player_control_speed_item_1p5" type="id" />
     <item name="fu_player_control_speed_item_2p0" type="id" />
+
+    <item name="fu_video_play_view" type="id" />
+    <item name="fu_video_play_player_view" type="id" />
+    <item name="fu_video_play_player_control_view" type="id" />
+    <item name="fu_video_play_player_buffering_view" type="id" />
+    <item name="fu_video_play_player_end_view" type="id" />
+    <item name="fu_video_play_player_error_view" type="id" />
+
 </resources>
