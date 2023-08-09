@@ -20,12 +20,10 @@ if (!gradle.ext.has('projectSettingsDir')) {
 
 rootProject.name = "Media"
 include ':demos:main'
-include ':demos:session'
+include ':demos:demo-session'
 include ':libraries:common'
 include ':libraries:session'
 include ':libraries:ui'
-
-if (!System.env.JITPACK) include ':demos:session'
 
 
 
