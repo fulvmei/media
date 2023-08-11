@@ -327,11 +327,6 @@ public class PlayerControlView extends FrameLayout {
         long duration = progressAdapter.getDuration();
         long bufferedPosition = progressAdapter.getBufferedPosition();
 
-        for (ProgressUpdateListener listener : progressUpdateListeners) {
-            if (listener != null) {
-                listener.onProgressUpdate(position, bufferedPosition);
-            }
-        }
         if (positionView != null && !tracking) {
             positionView.setText(progressAdapter.getPositionText(position));
         }
@@ -345,8 +340,18 @@ public class PlayerControlView extends FrameLayout {
             }
         }
 
+        onProgressUpdated(position, bufferedPosition);
+
         removeCallbacks(updateProgressTask);
         postDelayed(updateProgressTask, progressUpdateIntervalMs);
+    }
+
+    protected void onProgressUpdated(long position, long bufferedPosition) {
+        for (ProgressUpdateListener listener : progressUpdateListeners) {
+            if (listener != null) {
+                listener.onProgressUpdate(position, bufferedPosition);
+            }
+        }
     }
 
     protected void updateNavigation() {
