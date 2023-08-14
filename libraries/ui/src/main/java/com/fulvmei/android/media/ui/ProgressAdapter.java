@@ -1,5 +1,7 @@
 package com.fulvmei.android.media.ui;
 
+import com.fulvmei.android.media.common.PlayerHolder;
+
 public interface ProgressAdapter extends PlayerHolder {
 
     boolean isCurrentWindowSeekable();

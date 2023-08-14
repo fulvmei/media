@@ -1,4 +1,4 @@
-package com.fulvmei.android.media.ui;
+package com.fulvmei.android.media.common;
 
 import androidx.annotation.Nullable;
 import androidx.media3.common.Player;

@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.fulvmei.android.media.common.PlayerHolder;
+
 
 public class PlayerView extends FrameLayout implements PlayerHolder {
 

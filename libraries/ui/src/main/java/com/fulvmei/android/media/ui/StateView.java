@@ -1,5 +1,7 @@
 package com.fulvmei.android.media.ui;
 
+import com.fulvmei.android.media.common.PlayerHolder;
+
 public interface StateView extends PlayerHolder {
 
     interface VisibilityChangeListener {
