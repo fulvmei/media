@@ -7,7 +7,7 @@ import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
 
 public class DefaultPlayerFactory implements PlayerFactory {
-    private @NonNull Context context;
+    private final @NonNull Context context;
 
     public DefaultPlayerFactory(@NonNull Context context) {
         this.context = context;
