@@ -51,6 +51,8 @@ public class PlayerControlView extends FrameLayout {
     @NonNull
     protected final ControlPlayerListener controlPlayerListener;
     @NonNull
+    protected final ProgressListener progressListener;
+    @NonNull
     protected final ActionHandler actionHandler;
     @NonNull
     protected ProgressAdapter progressAdapter;
@@ -98,6 +100,7 @@ public class PlayerControlView extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         controlPlayerListener = getControlPlayerListener();
+        progressListener = getProgressListener();
         actionHandler = getActionHandler();
         progressAdapter = new DefaultProgressAdapter();
         speedAdapter = new DefaultSpeedAdapter();
@@ -212,6 +215,11 @@ public class PlayerControlView extends FrameLayout {
     @NonNull
     protected ControlPlayerListener getControlPlayerListener() {
         return new ControlPlayerListener();
+    }
+
+    @NonNull
+    public ProgressListener getProgressListener() {
+        return new ProgressListener();
     }
 
     @NonNull
@@ -737,6 +745,45 @@ public class PlayerControlView extends FrameLayout {
                 return;
             }
             player.setPlaybackSpeed(speed.value);
+        }
+    }
+
+    protected class ProgressListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        public void onStartTrackingTouch() {
+            tracking = true;
+        }
+
+        public void onProgressChanged(int progress, boolean fromUser) {
+            if (!fromUser || player == null) {
+                return;
+            }
+            if (positionView != null) {
+                positionView.setText(progressAdapter.getPositionText(progress));
+            }
+        }
+
+        public void onStopTrackingTouch() {
+            tracking = false;
+            if (player == null) {
+                return;
+            }
+            seekTo(seekView.getProgress());
         }
     }
 }
