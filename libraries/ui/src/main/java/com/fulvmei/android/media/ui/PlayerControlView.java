@@ -35,19 +35,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.Player;
 
+import com.fulvmei.android.media.common.PlayerHolder;
+
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class PlayerControlView extends FrameLayout {
+public class PlayerControlView extends PlayerHolderView {
 
     private static final String TAG = "ControlView";
 
     public static final int DEFAULT_PROGRESS_UPDATE_INTERVAL_MS = 1000;
 
-    @Nullable
-    private Player player;
     @NonNull
     protected final ControlPlayerListener controlPlayerListener;
     @NonNull
@@ -227,23 +227,18 @@ public class PlayerControlView extends FrameLayout {
         return new ActionHandler();
     }
 
-    @Nullable
-    public Player getPlayer() {
-        return player;
+    @Override
+    protected void onPlayerAttached(@NonNull Player player) {
+        super.onPlayerAttached(player);
+        player.addListener(controlPlayerListener);
+        progressAdapter.setPlayer(null);
+        updateAll();
     }
 
-    public void setPlayer(@Nullable Player player) {
-        if (this.player == player) {
-            return;
-        }
-        if (this.player != null) {
-            this.player.removeListener(controlPlayerListener);
-        }
-
-        this.player = player;
-        if (this.player != null) {
-            player.addListener(controlPlayerListener);
-        }
+    @Override
+    protected void onPlayerDetached(@NonNull Player player) {
+        super.onPlayerDetached(player);
+        player.removeListener(controlPlayerListener);
         progressAdapter.setPlayer(player);
         updateAll();
     }
