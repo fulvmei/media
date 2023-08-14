@@ -23,7 +23,7 @@ if (gradle.ext.has('mediaModulePrefix')) {
     modulePrefix += gradle.ext.mediaModulePrefix
 }
 
-rootProject.name = "Media"
+rootProject.name = "media"
 include modulePrefix + 'demo'
 project(modulePrefix + 'demo').projectDir = new File(rootDir, 'demos/main')
 include modulePrefix + 'demo-session'
