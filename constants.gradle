@@ -16,4 +16,9 @@ project.ext {
 
     //junit
     junitVersion='4.13.2'
+
+    modulePrefix = ':'
+    if (gradle.ext.has('mediaModulePrefix')) {
+        modulePrefix += gradle.ext.mediaModulePrefix
+    }
 }

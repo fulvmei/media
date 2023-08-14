@@ -6,7 +6,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:' + androidxTestJUnitVersion
     androidTestImplementation 'androidx.test.espresso:espresso-core:' + androidxTestEspressoVersion
 
-    api project(path: ':libraries:common')
+    api project(modulePrefix + 'lib-common')
 }
 
 ext {
