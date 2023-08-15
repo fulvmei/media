@@ -88,7 +88,7 @@ public class PlayerView extends FrameLayout implements PlayerHolder {
                 a.recycle();
             }
         }
-        LayoutInflater.from(context).inflate(R.layout.default_player_view, this);
+        LayoutInflater.from(context).inflate(R.layout.fu_player_view, this);
 
         mUnderlayView = findViewById(R.id.underlay);
         mSurfaceContainer = findViewById(R.id.surface_container);
