@@ -231,7 +231,7 @@ public class PlayerControlView extends PlayerHolderView {
     protected void onPlayerAttached(@NonNull Player player) {
         super.onPlayerAttached(player);
         player.addListener(controlPlayerListener);
-        progressAdapter.setPlayer(null);
+        progressAdapter.setPlayer(player);
         updateAll();
     }
 
@@ -239,7 +239,7 @@ public class PlayerControlView extends PlayerHolderView {
     protected void onPlayerDetached(@NonNull Player player) {
         super.onPlayerDetached(player);
         player.removeListener(controlPlayerListener);
-        progressAdapter.setPlayer(player);
+        progressAdapter.setPlayer(null);
         updateAll();
     }
 
