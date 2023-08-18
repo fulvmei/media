@@ -2,7 +2,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-        android:id="@id/fu_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,7 +40,7 @@
                 android:paddingTop="4dp">
 
                 <ImageButton
-                    android:id="@id/fu_controller_skip_previous"
+                    android:id="@id/fu_player_control_previous"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -53,7 +52,7 @@
                     android:src="@drawable/fu_ic_skip_previous" />
 
                 <ImageButton
-                    android:id="@id/fu_controller_fast_rewind"
+                    android:id="@id/fu_player_control_back"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -65,7 +64,7 @@
                     android:src="@drawable/fu_ic_fast_rewind" />
 
                 <ImageButton
-                    android:id="@id/fu_controller_play_pause_switch"
+                    android:id="@id/fu_player_control_play_pause"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -77,7 +76,7 @@
                     android:src="@drawable/fu_ic_play" />
 
                 <ImageButton
-                    android:id="@id/fu_controller_fast_forward"
+                    android:id="@id/fu_player_control_forward"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -89,7 +88,7 @@
                     android:src="@drawable/fu_ic_fast_forward" />
 
                 <ImageButton
-                    android:id="@id/fu_controller_skip_next"
+                    android:id="@id/fu_player_control_next"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -110,7 +109,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@id/fu_controller_repeat_switch"
+                    android:id="@id/fu_player_control_repeat"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -122,7 +121,7 @@
                     android:src="@drawable/fu_ic_repeat_off" />
 
                 <ImageButton
-                    android:id="@id/fu_controller_shuffle_switch"
+                    android:id="@id/fu_player_control_shuffle"
                     android:layout_width="48dp"
                     android:layout_height="40dp"
                     android:background="@null"
@@ -144,7 +143,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@id/fu_controller_position"
+                    android:id="@id/fu_player_control_position"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
@@ -155,13 +154,13 @@
                     android:textStyle="bold" />
 
                 <SeekBar
-                    android:id="@id/fu_controller_seek"
+                    android:id="@id/fu_player_control_seek"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@id/fu_controller_duration"
+                    android:id="@id/fu_player_control_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
